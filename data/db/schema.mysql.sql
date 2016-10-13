@@ -25,6 +25,8 @@ CREATE TABLE `applicationform` (
   `received_ts` timestamp NULL,
   `received_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `received_document` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  `approved` int(11) unsigned NOT NULL DEFAULT 0,
+  `approved_date` int(11)  unsigned NULL,
   PRIMARY KEY (`id`),
   KEY `index_foreignkey_applicationform_school` (`school_id`),
   CONSTRAINT `c_fk_applicationform_school_id` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE

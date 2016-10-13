@@ -1,0 +1,38 @@
+{% extends "layout.twig" %}
+{% block content %}
+    <div id="approved_applications">
+        <h1>Αιτήσεις που εγκρίθηκαν</h1>
+        <p>Στο παρακάτω αρχείο μπορείτε να βρείτε τη διακήρυξη του διαγωνισμού για την "Προμήθεια, εγκατάσταση εξοπλισμού
+για την αναβάθμιση ψηφιακών υποδομών Τεχνολογίας Πληροφορικής και Επικοινωνιών σε επιλεγμένες σχολικές μονάδες Πρωτοβάθμιας και Δευτεροβάθμιας Εκπαίδευσης"</p>
+        <p class="text-center">
+            <a class="btn btn-primary" href="{{ base_url() }}/files/DIAKHRYJH-F478.6_155_223143_A2 ">ΑΡΧΕΙΟ ΔΙΑΚΗΡΥΞΗΣ</a>
+        </p>
+        <p>Ακολουθεί κατάλογος των αιτήσεων οι οποίες εγκρίθηκαν στην πρώτη φάση διεξαγωγής του προγράμματος.</p>
+        {% if approved_forms %}
+            <div class="table-responsive">
+                <table class="table table-condensed table-hover">
+                    <caption>Συνολικά {{ approved_forms | length }} εγκεκριμένες αιτήσεις.</caption>
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Σχολείο</th>
+                            <th>Διεύθυνση όπου ανήκει</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in approved_forms %}
+                            <tr>
+                                <td class="text-center col-xs-1"><span class="text-muted">{{ loop.index }}</span></td>
+                                <td class="col-xs-5"><strong>{{ form.school }}</strong> <span class="text-muted"></td>
+                                <td class="col-xs-4">{{ form.eduadmin }}<br/>{{ form.regioneduadmin }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">Δεν υπάρχουν διαθέσιμα στοιχεία</div>
+        {% endif %} 
+    </div>
+{% endblock %}
+

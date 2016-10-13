@@ -51,10 +51,21 @@ class ApplicationFormService implements ApplicationFormServiceInterface
         return $this->exportApplicationForm($appForm);
     }
 
-    private function exportApplicationForm(OODBBean $bean)
+    /**
+     * 
+     * @param OODBBean $bean the application form bean
+     * @param boolean $with_school_info if true, the name, eduadmin and regionadmin properties of the school are provided with the exported bean info
+     * @return array
+     */
+    private function exportApplicationForm(OODBBean $bean, $with_school_info = false)
     {
         $appForm          = $bean->export();
-        $appForm['items'] = array_map(function ($itemBean) {
+        if ($with_school_info === true) {
+            $appForm['school'] = $bean->school->name;
+            $appForm['eduadmin'] = $bean->school->eduadmin->name;
+            $appForm['regioneduadmin'] = $bean->school->eduadmin->regioneduadmin->name;
+        }
+        $appForm['items'] = array_map(function ($itemBean) use ($with_school_info) {
             return array_merge($itemBean->export(), [
                 'lab'          => $itemBean->lab->name,
                 'itemcategory' => $itemBean->itemcategory->name,
@@ -64,4 +75,28 @@ class ApplicationFormService implements ApplicationFormServiceInterface
 
         return $appForm;
     }
+
+    /**
+     * Get all the approved applications
+     * 
+     * @return array The exported bean info from retrieved data
+     */
+    public function findApprovedSchoolApplicationForms()
+    {
+        $selectedAppForms = R::getAll('SELECT applicationform.* '
+            . 'FROM applicationform '
+            . 'JOIN school ON applicationform.school_id=school.id '
+            . 'JOIN eduadmin ON school.eduadmin_id=eduadmin.id '
+            . 'JOIN regioneduadmin ON eduadmin.regioneduadmin_id=regioneduadmin.id '
+            . 'WHERE applicationform.approved=1 '
+            . 'ORDER BY regioneduadmin.name, eduadmin.name, school.name');
+        $appForms = R::convertToBeans('applicationform', $selectedAppForms);
+
+        return array_map(function ($c) {
+                return $this->exportApplicationForm($c, true);
+            },
+            $appForms
+        );
+    }
+
 }
