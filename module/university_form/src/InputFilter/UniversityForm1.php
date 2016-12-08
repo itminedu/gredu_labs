@@ -15,7 +15,7 @@ use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
 use Zend\Validator;
 
-class UniversityForm extends InputFilter 
+class UniversityForm1 extends InputFilter 
 {
  
     public function __construct()
@@ -25,10 +25,10 @@ class UniversityForm extends InputFilter
            $newselect->setRequired(false)
                         ->getFilterChain();
 
-
+         
 
            $ereunitiko = new Input('ereunitiko');
-           $ereunitiko->setRequired(true)
+           $ereunitiko->setRequired(false)
                         ->getFilterChain();
 
  
@@ -40,10 +40,9 @@ class UniversityForm extends InputFilter
            $other->setRequired(false)
                         ->getFilterChain();
 
-
- 
-           $idrima = new Input('idrima');
-           $idrima->setRequired(false)
+  
+            $idrima = new Input('idrima');
+           $idrima->setRequired(true)
                         ->getFilterChain();
 
            
@@ -55,7 +54,7 @@ class UniversityForm extends InputFilter
          $tmhma = new Input('tmhma');
          $tmhma->setRequired(false)
                         ->getFilterChain();
-   
+
         
         $erga = new Input('erga');
         $erga->setRequired(false)
@@ -102,7 +101,7 @@ class UniversityForm extends InputFilter
                     ->attach(new Filter\StringTrim());
 
 
-        $this->add($newselect)
+          $this->add($newselect)
             ->add($ereunitiko) 
             ->add($institute)
             ->add($other)

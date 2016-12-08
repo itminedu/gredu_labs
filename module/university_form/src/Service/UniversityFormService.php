@@ -23,6 +23,9 @@ class UniversityFormService implements UniversityFormServiceInterface
         $appForm->idrima              = $data['idrima'];
         $appForm->sxolh               = $data['sxolh'];
         $appForm->tmhma               = $data['tmhma'];
+        $appForm->ereunitiko          = $data['ereunitiko'];
+        $appForm->institute           = $data['istitute'];
+        $appForm->other               = $data['other'];
         $appForm->erga                = $data['erga'];
         $appForm->person              = $data['person'];
         $appForm->telef               = trim($data['telef']);

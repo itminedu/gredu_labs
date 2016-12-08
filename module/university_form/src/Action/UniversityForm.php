@@ -49,12 +49,14 @@ class UniversityForm
     protected $successUrl;
 
     public function __construct(
-    Twig $view, UniversityFormServiceInterface $UniversityFormService, InputFilterInterface $UniversityFormInputFilter, $successUrl,$container
+    Twig $view, UniversityFormServiceInterface $UniversityFormService, InputFilterInterface $UniversityFormInputFilter2,InputFilterInterface $UniversityFormInputFilter1, $successUrl,$container
     )
      {
         $this->view                    = $view;
         $this->UniversityFormService   = $UniversityFormService;
-        $this->UniversityFormInputFilter = $UniversityFormInputFilter;
+        $this->UniversityFormInputFilter = $UniversityFormInputFilter1;
+        $this->UniversityFormInputFilter2 = $UniversityFormInputFilter2;
+        $this->UniversityFormInputFilter1 = $UniversityFormInputFilter1;
         $this->successUrl =             $successUrl;
         $this->container               = $container;
     }
@@ -66,9 +68,18 @@ class UniversityForm
         if ($req->isPost()) {
             $reqParams = $req->getParams();
 
+            if (isset($reqParams['newselect'])&& $reqParams['newselect']=='ereunitika')
+            {
+                $this->UniversityFormInputFilter = $this->UniversityFormInputFilter2;
+            }
+            else    
+            {
+                $this->UniversityFormInputFilter = $this->UniversityFormInputFilter1;
+            }
+
             $this->UniversityFormInputFilter->setData($reqParams);
-           
             $isValid = $this->UniversityFormInputFilter->isValid();      
+
             if ($isValid) {
                 
                 $data =                            $this->UniversityFormInputFilter->getValues();

@@ -32,14 +32,22 @@ $events('on', 'app.services', function ($container) {
             return new GrEduLabs\UniversityForm\InputFilter\UniversityForm();
         };
 
+        $container[GrEduLabs\UniversityForm\InputFilter\UniversityForm1::class] = function ($c) {
+            return new GrEduLabs\UniversityForm\InputFilter\UniversityForm1();
+        };
+
 	    $container[GrEduLabs\UniversityForm\Action\UniversityForm::class] = function ($c) {
                return new GrEduLabs\UniversityForm\Action\UniversityForm(
                 $c->get('view'),
                 $c->get(GrEduLabs\UniversityForm\Service\UniversityFormServiceInterface::class),
                 $c->get(GrEduLabs\UniversityForm\InputFilter\UniversityForm::class),
+                $c->get(GrEduLabs\UniversityForm\InputFilter\UniversityForm1::class),
                 $c->get('router')->pathFor('university_form.submit_success'),
                 $c);
         };
+
+
+
 
         $container[GrEduLabs\UniversityForm\Action\SubmitSuccess::class] = function ($c) {
             return new GrEduLabs\UniversityForm\Action\SubmitSuccess(

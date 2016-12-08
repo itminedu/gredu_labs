@@ -29,15 +29,23 @@ input[type=text] {
 
         <div class="table-responsive">
        <fieldset>
-                <div id="items-list">
-                    {{ macros.select('idrima', 'Ίδρυμα', '', form.values.idrima, { 'id': 'idrima'} )}}
+       			<div id="items-list">
+       			<strong>Επιλέξτε την ιδιότητά σας:</strong>
+       			 <select name='newselect' id="newselect">
+       			 	<option value="space" id = "space" selected ></option>	
+	 		  		<option value="idrimata" id = "idrimata">ΑΕΙ/ΑΤΕΙ</option>
+					<option value="ereunitika" id="ereunitika">Ερευνητικά Κέντρα</option>
+				</select> 
+                    {{ macros.select('idrima','Ίδρυμα','', form.values.idrima, { 'id': 'idrima'} )}}
                     {{ macros.select('sxolh', 'Σχολή','', form.values.sxolh,{ 'id': 'sxolh'} ) }}
                     {{ macros.select('tmhma', 'Τμήμα','', form.values.tmhma, { 'id': 'tmhma'}) }}
+                    {{ macros.select('ereunitiko', 'Ερευνητικό Κέντρο', '', form.values.ereunitiko, { 'id': 'ereunitiko'} )}}
+                    {{ macros.select('institute', 'Ινστιτούτο','', form.values.institute,{ 'id': 'institute'} ) }}
+					{{ macros.input('other', 'Αλλο',form.values.other,{ 'id': 'other'} ) }}
                     {{ macros.input('erga', 'Εργαστήριο',form.values.erga ) }}
                     {{ macros.input('person', 'Υπεύθυνος Επικοινωνίας',form.values.person ) }}
                     {{ macros.input('telef', 'Τηλέφωνο',form.values.telef ) }}
                     {{ macros.input('email', 'Email',form.values.email ) }}
-
 
                   <br>
                   <br>
@@ -68,6 +76,11 @@ input[type=text] {
                     <input type="hidden" name="hididrima" id="hididrima" value="{{form.values.idrima}}">
                     <input type="hidden" name="hidsxolh" id="hidsxolh" value="{{form.values.sxolh}}">
                     <input type="hidden" name="hidtmhma" id="hidtmhma" value="{{form.values.tmhma}}">
+                    <input type="hidden" name="hidereunitiko" id="hidereunitiko" value="{{form.values.ereunitiko}}">
+                    <input type="hidden" name="hidinstitute" id="hidinstitute" value="{{form.values.institute}}">
+
+
+                    <input type="hidden" name="hidnewselect" id="hidnewselect" >
                 </div>
                 <input type="hidden" name="{{ csrf.name_key }}" value="{{ csrf.name }}">
                 <input type="hidden" name="{{ csrf.value_key }}" value="{{ csrf.value }}">
