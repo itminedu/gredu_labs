@@ -15,7 +15,7 @@ input[type=text] {
        
     {% endblock %}
     </h1>
-    <form method="post" action="" data-is-valid="{{ form.is_valid | default(true) ? '1' : '0' }}"
+    <form class="form-horizontal" method="post" action="" data-is-valid="{{ form.is_valid | default(true) ? '1' : '0' }}"
           data-messages="{{ form.messages|default({})|json_encode }}" >
         <div class="form-group">
               <p>
@@ -35,21 +35,20 @@ input[type=text] {
        			 	<option value="space" id = "space" selected ></option>	
 	 		  		<option value="idrimata" id = "idrimata">ΑΕΙ/ΑΤΕΙ</option>
 					<option value="ereunitika" id="ereunitika">Ερευνητικά Κέντρα</option>
-				</select> 
+				</select>
                     {{ macros.select('idrima','Ίδρυμα','', form.values.idrima, { 'id': 'idrima'} )}}
                     {{ macros.select('sxolh', 'Σχολή','', form.values.sxolh,{ 'id': 'sxolh'} ) }}
                     {{ macros.select('tmhma', 'Τμήμα','', form.values.tmhma, { 'id': 'tmhma'}) }}
                     {{ macros.select('ereunitiko', 'Ερευνητικό Κέντρο', '', form.values.ereunitiko, { 'id': 'ereunitiko'} )}}
                     {{ macros.select('institute', 'Ινστιτούτο','', form.values.institute,{ 'id': 'institute'} ) }}
-					{{ macros.input('other', 'Αλλο',form.values.other,{ 'id': 'other'} ) }}
+					          {{ macros.input('other', 'Αλλο',form.values.other,{ 'id': 'other'} ) }}
                     {{ macros.input('erga', 'Εργαστήριο',form.values.erga ) }}
                     {{ macros.input('person', 'Υπεύθυνος Επικοινωνίας',form.values.person ) }}
                     {{ macros.input('telef', 'Τηλέφωνο',form.values.telef ) }}
                     {{ macros.input('email', 'Email',form.values.email ) }}
 
-                  <br>
-                  <br>
-                  <br> 
+                  
+                  
 			    <h3> Δράσεις</h3>
 			    Παρακαλώ περιγράψτε σύντομα δράσεις που έχετε συμμετάσχει. 
 			    <div class="input_fields_wrap">

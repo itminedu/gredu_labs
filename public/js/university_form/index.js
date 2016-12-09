@@ -443,8 +443,7 @@ function refresh1(key) {
 
 
      for ( var index1 = 0; index1 < data1.length; index1++ ) {
-      console.log(data1[ index1 ].parents,data1[key].tid, data1[ index1 ].depth)
-      if (data1[index1].parents == data1[key].tid && data1[ index1 ].depth == 1)
+     if (data1[index1].parents == data1[key].tid && data1[ index1 ].depth == 1)
       if (index1 == parseInt(document.getElementById("hidinstitute").value)){
 
 
@@ -456,16 +455,34 @@ function refresh1(key) {
            }
 
       else
-{
+		{
           $('#el-institute')
              .append($("<option  ></option>")
                     .attr("value",index1)
                     .text(data1[ index1 ].name));
 
 
-}
+		}
 
     }
+
+
+	
+	if (parseInt(document.getElementById("hidinstitute").value)== 1000)
+			{
+
+	  		$('#el-institute')
+    	         .append($("<option selected></option>")
+                    .attr("value",1000)
+                    .text("ΑΛΛΟ"));
+						
+			$('#el-other').attr("disabled", false);
+			}
+			else
+			{
+					$("#el-institute").append('<option value=1000>ΑΛΛΟ</option>');
+			}
+
     });
 }
 
