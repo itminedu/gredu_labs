@@ -50,7 +50,8 @@ return function (Slim\App $app) {
 
         $container[Action\Staff\DeleteTeacher::class] = function ($c) {
             return new Action\Staff\DeleteTeacher(
-                $c->get(Service\StaffServiceInterface::class)
+                $c->get(Service\StaffServiceInterface::class),
+                $c->get('logger')
             );
         };
 

@@ -224,7 +224,8 @@ INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES
 (120,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΔΗΜΟΤΙΚΟΥ', 1,20),
 (121,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΓΥΜΝΑΣΙΟΥ', 1,21),
 (122,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΛΥΚΕΙΟΥ', 1,22),
-(123,'ΔΙΑΔΡΑΣΤΙΚΟ ΣΥΣΤΗΜΑ (INTERACTIVE SET)', 1,23);
+(123,'ΔΙΑΔΡΑΣΤΙΚΟ ΣΥΣΤΗΜΑ (INTERACTIVE SET)', 1,23),
+(124,'ΜΟΝΑΔΑ ΑΔΙΑΛΕΙΠΤΗΣ ΠΑΡΟΧΗΣ ΡΕΥΜΑΤΟΣ (UPS)', 1, 24);
 /*!40000 ALTER TABLE `itemcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,9 +402,6 @@ UNLOCK TABLES;
 -- Table structure for table `school`
 --
 
-DROP TABLE IF EXISTS `school`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 DROP TABLE IF EXISTS `school`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -588,7 +586,7 @@ CREATE TABLE `softwarecategory` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 --
@@ -643,7 +641,7 @@ DROP TABLE IF EXISTS `tpesurvey`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tpesurvey` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) unsigned NOT NULL,
+  `teacher_id` int(11) unsigned DEFAULT NULL,
   `already_using_tpe` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `knowledge_level` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `assets_in_use` text COLLATE utf8mb4_unicode_ci,
@@ -663,7 +661,7 @@ CREATE TABLE `tpesurvey` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `teacher_id_UNIQUE` (`teacher_id`),
   KEY `index_foreignkey_tpesurvey_teacher` (`teacher_id`),
-  CONSTRAINT `c_fk_tpesurvey_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `c_fk_tpesurvey_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
