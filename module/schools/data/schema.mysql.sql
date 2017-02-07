@@ -10,6 +10,73 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `applicationform`
+--
+
+DROP TABLE IF EXISTS `applicationform`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `applicationform` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `school_id` int(11) unsigned NOT NULL,
+  `comments` text COLLATE utf8mb4_unicode_ci,
+  `submitted` int(11) unsigned NOT NULL,
+  `submitted_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `received_ts` timestamp NULL,
+  `received_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `received_document` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `index_foreignkey_applicationform_school` (`school_id`),
+  CONSTRAINT `c_fk_applicationform_school_id` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE INDEX `index_applicationform_submitted` ON `applicationform`(`submitted`);
+CREATE INDEX `index_applicationform_received_ts` ON `applicationform`(`received_ts`);
+--
+-- Dumping data for table `applicationform`
+--
+
+LOCK TABLES `applicationform` WRITE;
+/*!40000 ALTER TABLE `applicationform` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicationform` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `applicationformitem`
+--
+
+DROP TABLE IF EXISTS `applicationformitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `applicationformitem` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `itemcategory_id` int(11) unsigned NOT NULL,
+  `qty` int(11) unsigned NOT NULL,
+  `qtyacquired` int(11) unsigned NOT NULL DEFAULT 0,
+  `qtyreceived` int(11) unsigned DEFAULT 0,
+  `reasons` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicationform_id` int(11) unsigned NOT NULL,
+  `lab_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_foreignkey_applicationformitem_itemcategory` (`itemcategory_id`),
+  KEY `index_foreignkey_applicationformitem_applicationform` (`applicationform_id`),
+  KEY `index_foreignkey_applicationformitem_lab` (`lab_id`),
+  CONSTRAINT `c_fk_applicationformitem_itemcategory_id` FOREIGN KEY (`itemcategory_id`) REFERENCES `itemcategory` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `c_fk_applicationformitem_applicationform_id` FOREIGN KEY (`applicationform_id`) REFERENCES `applicationform` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `c_fk_applicationformitem_lab_id` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `applicationformitem`
+--
+
+LOCK TABLES `applicationformitem` WRITE;
+/*!40000 ALTER TABLE `applicationformitem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `applicationformitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `branch`
 --
 
@@ -101,7 +168,7 @@ CREATE TABLE `itemcategory` (
   `sort` int(11) unsigned DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +177,7 @@ CREATE TABLE `itemcategory` (
 
 LOCK TABLES `itemcategory` WRITE;
 /*!40000 ALTER TABLE `itemcategory` DISABLE KEYS */;
-INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES 
+INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES
 (8,'ACCESS POINT',0,8),
 (26,'ΦΟΡΗΤΟΣ Η/Υ (LAPTOP)',0,26),
 (6,'MODEM / ROUTER ',0,6),
@@ -134,7 +201,7 @@ INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES
 (43,'ΤΡΙΣΔΙΑΣΤΑΤΟΣ ΣΑΡΩΤΗΣ',0,43),
 (44,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ - ΑΙΣΘΗΤΗΡΩΝ',0,44),
 (45,'ΔΟΜΗΜΕΝΗ ΚΑΛΩΔΙΩΣΗ',0,45);
-INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES 
+INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES
 (101,'ΣΤΑΘΕΡΟΣ ΗΛΕΚΤΡΟΝΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ (DESKTOP)', 1,1),
 (102,'ΦΟΡΗΤΟΣ ΗΛΕΚΤΡΟΝΙΚΟΣ ΥΠΟΛΟΓΙΣΤΗΣ (LAPTOP)', 1,2),
 (103,'ΕΠΙΤΡΑΠΕΖΙΟΣ ΒΙΝΤΕΟΠΡΟΒΟΛΕΑΣ (SHORT THROW PROJECTOR)', 1,3),
@@ -157,7 +224,8 @@ INSERT INTO `itemcategory` (`id`,`name`,`groupflag`,`sort`) VALUES
 (120,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΔΗΜΟΤΙΚΟΥ', 1,20),
 (121,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΓΥΜΝΑΣΙΟΥ', 1,21),
 (122,'ΣΕΤ ΡΟΜΠΟΤΙΚΗΣ ΛΥΚΕΙΟΥ', 1,22),
-(123,'ΔΙΑΔΡΑΣΤΙΚΟ ΣΥΣΤΗΜΑ (INTERACTIVE SET)', 1,23);
+(123,'ΔΙΑΔΡΑΣΤΙΚΟ ΣΥΣΤΗΜΑ (INTERACTIVE SET)', 1,23),
+(124,'ΜΟΝΑΔΑ ΑΔΙΑΛΕΙΠΤΗΣ ΠΑΡΟΧΗΣ ΡΕΥΜΑΤΟΣ (UPS)', 1, 24);
 /*!40000 ALTER TABLE `itemcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +286,7 @@ CREATE TABLE `lab_lesson` (
   UNIQUE KEY `UQ_82ac3a020f1d21984f224331fbd99880f89b2e71` (`lab_id`,`lesson_id`),
   KEY `index_foreignkey_lab_lesson_lesson` (`lesson_id`),
   KEY `index_foreignkey_lab_lesson_lab` (`lab_id`),
-  CONSTRAINT `c_fk_lab_lesson_lesson_id` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,  
+  CONSTRAINT `c_fk_lab_lesson_lesson_id` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `c_fk_lab_lesson_lab_id` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -353,6 +421,7 @@ CREATE TABLE `school` (
   `created` int(11) unsigned NOT NULL,
   `creator` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `registry_no` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `teachers_count` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `registry_no_UNIQUE` (`registry_no`),
   KEY `index_foreignkey_school_schooltype` (`schooltype_id`),
@@ -472,6 +541,41 @@ LOCK TABLES `teacher` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `display_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `office_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created` int(11) unsigned NOT NULL,
+  `uid` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mail` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `authentication_source` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `school_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mail_UNIQUE` (`mail`),
+  KEY `index_foreignkey_user_school` (`school_id`),
+  CONSTRAINT `c_fk_user_school_id` FOREIGN KEY (`school_id`) REFERENCES `school` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `softwarecategory`
 --
 
@@ -527,6 +631,97 @@ LOCK TABLES `software` WRITE;
 /*!40000 ALTER TABLE `software` DISABLE KEYS */;
 /*!40000 ALTER TABLE `software` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `tpesurvey`
+--
+
+DROP TABLE IF EXISTS `tpesurvey`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tpesurvey` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `teacher_id` int(11) unsigned DEFAULT NULL,
+  `already_using_tpe` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `knowledge_level` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assets_in_use` text COLLATE utf8mb4_unicode_ci,
+  `sw_web2` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sw_packages` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sw_digitalschool` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sw_other` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uc_eduprograms` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uc_digitaldesign` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uc_asyncedu` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uc_other` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `edu_fields_current` text COLLATE utf8mb4_unicode_ci,
+  `edu_fields_future` text COLLATE utf8mb4_unicode_ci,
+  `edu_fields_future_sync_type` tinyint(1) unsigned DEFAULT 0,
+  `edu_fields_future_async_type` tinyint(1) unsigned DEFAULT 0,
+  `extra_needs` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `teacher_id_UNIQUE` (`teacher_id`),
+  KEY `index_foreignkey_tpesurvey_teacher` (`teacher_id`),
+  CONSTRAINT `c_fk_tpesurvey_teacher_id` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tpesurvey`
+--
+
+LOCK TABLES `tpesurvey` WRITE;
+/*!40000 ALTER TABLE `tpesurvey` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tpesurvey` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `volunteerteachers`
+--
+
+DROP TABLE IF EXISTS `volunteerteachers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `volunteerteachers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `eidikothta` int(11) UNSIGNED,
+  `arithmitroou` int(11) NOT NULL,
+  `telef` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `school` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `schooltelef` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `projectdescription` text COLLATE utf8mb4_unicode_ci,
+  `comments` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `volunteerteachers` ADD CONSTRAINT `fk_branch_id` FOREIGN KEY (`eidikothta`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Table structure for table `univ`
+--
+
+DROP TABLE IF EXISTS `univ`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `univ` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ereunitiko` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `institute` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `other` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `idrima` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `sxolh` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `tmhma` varchar(191) COLLATE utf8mb4_unicode_ci,
+  `person` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `telef` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `erga` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `projectdescription` text COLLATE utf8mb4_unicode_ci,
+  `comments` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
