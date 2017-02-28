@@ -87,6 +87,16 @@ return function (Slim\App $app) {
                 $c
             );
         };
+
+        $container[GrEduLabs\ApplicationForm\Action\Approved::class] = function ($c) {
+            return new GrEduLabs\ApplicationForm\Action\Approved(
+                $c->get('view'),
+                $c->get(GrEduLabs\Schools\Service\AssetServiceInterface::class),
+                $c->get(GrEduLabs\Schools\Service\LabServiceInterface::class),
+                $c->get(GrEduLabs\ApplicationForm\Service\ApplicationFormServiceInterface::class)
+            );
+        };
+
     });
 
     $events('on', 'app.bootstrap', function ($app, $container) {
@@ -104,5 +114,8 @@ return function (Slim\App $app) {
             $this->get('/report', GrEduLabs\ApplicationForm\Action\ApplicationFormPdf::class)
                 ->setName('application_form.report');
         })->add(GrEduLabs\Schools\Middleware\FetchSchoolFromIdentity::class);
+
+        $app->get('/application-form/approved', GrEduLabs\ApplicationForm\Action\Approved::class)
+            ->setName('application_form.approved');
     });
 };
